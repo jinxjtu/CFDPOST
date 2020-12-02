@@ -1,0 +1,46 @@
+%eqn def
+
+LIBRARY:
+  CEL:
+    EXPRESSIONS:
+      htc1 = Wall Heat Flux/(Temperature-Temperature on Imported wall)*5
+      nu1 = Wall Heat Flux/(Temperature-Temperature on Imported wall)*0.127[m]/\
+0.0261[W*m^-1K^-1]
+      St1 = Wall Heat Flux/((Temperature-Temperature on Imported wall)*\
+(areaAve(Density)@inlet*areaAve(Velocity)@inlet *Specific Heat Capacity at \
+Constant Pressure))
+      Tendwall = 348.15[K]
+    END
+  END
+END
+
+
+#def var
+
+USER SCALAR VARIABLE:Nu
+  Boundary Values = Conservative
+  Calculate Global Range = Off
+  Component Index = 1
+  Expression = nu1
+  Recipe = Expression
+  Variable to Copy = Pressure
+  Variable to Gradient = Pressure
+END
+USER SCALAR VARIABLE:htc
+  Boundary Values = Conservative
+  Calculate Global Range = Off
+  Component Index = 1
+  Expression = htc1
+  Recipe = Expression
+  Variable to Copy = Pressure
+  Variable to Gradient = Pressure
+END
+USER SCALAR VARIABLE:St
+  Boundary Values = Conservative
+  Calculate Global Range = Off
+  Component Index = 1
+  Expression = St1
+  Recipe = Expression
+  Variable to Copy = Pressure
+  Variable to Gradient = Pressure
+END
